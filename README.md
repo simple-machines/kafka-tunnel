@@ -12,6 +12,10 @@ You need python3 in order to use kafkatunnel.py
 * python3
 * pip3
 
+**Note:** You need to tag your ec2 zookeeper and kafka instances with Name=kafka/zookeper 
+
+see https://aws.amazon.com/premiumsupport/knowledge-center/ec2-resource-tags/
+
 Install
 -------
 
@@ -25,9 +29,9 @@ Usage
     zookeeper  on 10.11.85.128    port  2181
     zookeeper  on 10.11.82.30     port  2181
     zookeeper  on 10.11.83.9      port  2181
-    kafka      on 10.11.80.7      port  2181
-    kafka      on 10.11.80.123    port  2181
-    kafka      on 10.11.81.13     port  2181
+    kafka      on 10.11.80.7      port  9091
+    kafka      on 10.11.80.123    port  9091
+    kafka      on 10.11.81.13     port  9091
      * adding interface, user password might be needed
     Password:
     connecting to jump host

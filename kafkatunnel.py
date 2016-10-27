@@ -8,7 +8,7 @@ import subprocess
 @click.command()
 @click.argument('jump_host')
 @click.option('-zp','--zookeeper_port',default='2181')
-@click.option('-kp','--kafka_port',default='2181')
+@click.option('-kp','--kafka_port',default='9091')
 @click.option('-r','--region',default='ap-southeast-2')
 @click.option('-p','--profile',default='default')
 def cli(jump_host, zookeeper_port, kafka_port, region, profile):
