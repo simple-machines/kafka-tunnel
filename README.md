@@ -1,5 +1,5 @@
 
-Kafka Tunnel
+kafkatunnel.py
 ============
 Access kafka (zookeeper) via ssh tunnel to consume and produce messages from your local machine
 
@@ -15,9 +15,9 @@ You need python3 in order to use kafkatunnel.py
 Install
 -------
 
-   $ make
+    $ make
 
 Usage
 -----
 
-  $ kafkatunnel ec2-user@awsjumphost
+    $ kafkatunnel ec2-user@awsjumphost
