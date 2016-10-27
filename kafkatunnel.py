@@ -13,7 +13,7 @@ import subprocess
 @click.option('-p','--profile',default='default')
 def cli(jump_host, zookeeper_port, kafka_port, region, profile):
     instances=[]
-    click.echo('')
+    click.echo('accessing kafka & zookeeper via ssh ...')
     boto3.setup_default_session(profile_name=profile)
     instances += req_instances('zookeeper', zookeeper_port, region)
     instances += req_instances('kafka', kafka_port, region)
@@ -58,8 +58,10 @@ def remove_local_interfaces(instances):
         subprocess.call(cmd)
 
 def print_instances(instances):
+    click.echo('')
     for i in instances:
         click.echo('{:<10} on {:<15} port {:>5}'.format(i.name,i.ip,i.port))
+    click.echo('')
 
 def connect_ssh_tunnel(jump_host,instances):
     click.echo('connecting to jump host')

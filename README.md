@@ -12,7 +12,7 @@ You need python3 in order to use kafkatunnel.py
 * python3
 * pip3
 
-**Note:** You need to tag your ec2 zookeeper and kafka instances with Name=kafka/zookeper 
+**Note:** You need to tag your ec2 zookeeper and kafka instances with Name=kafka/zookeper
 
 see https://aws.amazon.com/premiumsupport/knowledge-center/ec2-resource-tags/
 
@@ -41,10 +41,8 @@ Usage
        _|  (     /   Amazon Linux AMI
       ___|\___|___|
 
-    [ec2-user@ip-10-13-89-119 ~]$ 
-    
-    $ kafka-topics --zookeeper 10.11.85.128:2181 --list
-    
-    
-    
+    [ec2-user@ip-10-13-89-119 ~]$
 
+On a second screen just do whatever you want, e.g. list all topics.
+
+    $ kafka-topics --zookeeper 10.11.85.128:2181 --list
