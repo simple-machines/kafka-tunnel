@@ -1,7 +1,7 @@
 
 kafkatunnel.py
 ============
-Access kafka (zookeeper) via ssh tunnel to consume and produce messages from your local machine
+Access kafka/zookeeper via ssh tunnel to consume and produce messages from your local machine
 
 After hours of unsuccessful searching for a solution to tunnel kafka instances inside of AWS/ec2 instances, I created my own little script.
 
@@ -12,13 +12,14 @@ You need python3 in order to use kafkatunnel.py
 * python3
 * pip3
 
-**Note:** You need to tag your ec2 zookeeper and kafka instances with Name=kafka/zookeper
+**Note:** for AWS mode: you need to tag your ec2 zookeeper and kafka instances with Name=kafka/zookeper
 
 see https://aws.amazon.com/premiumsupport/knowledge-center/ec2-resource-tags/
 
 Install
 -------
 
+    $ git clone https://github.com/simple-machines/kafka-tunnel
     $ make
 
 Usage
