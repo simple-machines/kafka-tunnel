@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='kafkatunnel',
     version='0.2',
-    py_modules=['kafkatunnel'],
+    py_modules=['kafkatunnel','Instance'],
     install_requires=[
         'Click',
         'boto3'

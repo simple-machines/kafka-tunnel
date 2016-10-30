@@ -24,7 +24,17 @@ Install
 Usage
 -----
 
-    $ kafkatunnel ec2-user@awsjumphost
+`kafkatool.py` supports two ways of passing the remote zookeeper/kafka ip's:
+
+* automatic retrival by ec2 resource tags (Name=zookeeper/kafka)
+
+    $ kafkatunnel aws ec2-user@awsjumphost
+
+* manual passing the ip's
+
+    $ kafkatunnel manual 10.11.85.128,10.11.82.30,10.11.83.9 10.11.80.7,10.11.80.123,10.11.81.13
+
+afterwards you have to provide your root password in order to create the interfaces
 
     zookeeper  on 10.11.85.128    port  2181
     zookeeper  on 10.11.82.30     port  2181
