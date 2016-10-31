@@ -17,7 +17,7 @@ def cli():
 @click.option('-p','--profile',default='default')
 def aws(jump_host,zookeeper_port,kafka_port,region,profile):
     instances=[]
-    click.echo('retrieving ip\'s from AWS zookeeper/kafka ec2 instances by tag_name ...')
+    click.echo(' * retrieving ip\'s from AWS ({},{}) zookeeper/kafka ec2 instances by tag_name ...'.format(profile,region))
     aws = AWSInstances(profile,region)
     instances += aws.getIps('zookeeper',zookeeper_port)
     instances += aws.getIps('kafka',kafka_port)
@@ -32,7 +32,7 @@ def aws(jump_host,zookeeper_port,kafka_port,region,profile):
 @click.option('-kp','--kafka_port',default='9091')
 def manual(jump_host,zookeeper_ips, kafka_ips, zookeeper_port, kafka_port):
     instances=[]
-    click.echo('using manual ip\'s ...')
+    click.echo(' * using manual ip\'s ...')
     man = ManualInstances()
     instances += man.getIps('zookeeper',zookeeper_ips, zookeeper_port)
     instances += man.getIps('kafka',kafka_ips, kafka_port)
@@ -58,7 +58,7 @@ def remove_local_interfaces(instances):
     click.echo(' * removing interface, user/root password might be needed')
     for instance in instances:
         if sys.platform == 'darwin':
-            cmd = ['sudo', 'ifconfig', 'lo0', '-alias', instance.ip]
+           cmd = ['sudo', 'ifconfig', 'lo0', '-alias', instance.ip]
         else:
             cmd = ['sudo', 'ip', 'del', 'a', 'dev', 'lo', instance.ip]
         subprocess.call(cmd)
@@ -70,7 +70,7 @@ def print_instances(instances):
     click.echo('')
 
 def connect_ssh_tunnel(jump_host,instances):
-    click.echo('connecting to jump host')
+    click.echo(' * connecting to jump host ' + jump_host)
     opts = []
     for i in instances:
         opts += ['-L','{ip}:{port}:{ip}:{port}'.format(ip=i.ip,port=i.port)]

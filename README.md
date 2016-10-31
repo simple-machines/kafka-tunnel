@@ -52,7 +52,7 @@ afterwards you have to provide your root password in order to create the interfa
        _|  (     /   Amazon Linux AMI
       ___|\___|___|
 
-    [ec2-user@ip-10-13-89-119 ~]$
+    [ec2-user@ip-10-11-85-128 ~]$
 
 On a second screen just do whatever you want, e.g. list all topics.
 
