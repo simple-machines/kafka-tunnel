@@ -21,7 +21,7 @@ class AWSInstances(RetrieveInstanceIPs):
     def __init__(self,profile,region):
         self.profile = profile
         self.region = region
-        boto3.setup_default_session(profile_name=profile)
+        self.session = boto3.Session(profile_name=profile, region_name=region)
     def getIps(self,service,port):
         instances=[]
         for ec2_ip in self.req_aws_ips(service, self.region):
@@ -30,7 +30,7 @@ class AWSInstances(RetrieveInstanceIPs):
     def req_aws_ips(self,service, region):
         ips=[]
         aws_filter = lambda name,value: [{'Name':'tag:'+name,'Values':[value]}]
-        client = boto3.client('ec2')
+        client = self.session.client('ec2')
         response = client.describe_instances(Filters=aws_filter('Name',service))
         for res in response.get('Reservations'):
             for instance in res.get('Instances'):
