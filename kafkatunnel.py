@@ -12,7 +12,7 @@ def cli():
 @cli.command(help='retrieve kafka/zookeeper ip\'s from AWS (important: a resource tag with Name=kafka/zookeeper is needed)')
 @click.argument('jump_host')
 @click.option('-zp','--zookeeper_port',default='2181')
-@click.option('-kp','--kafka_port',default='9091')
+@click.option('-kp','--kafka_port',default='9092')
 @click.option('-r','--region',default='ap-southeast-2')
 @click.option('-p','--profile',default='default')
 def aws(jump_host,zookeeper_port,kafka_port,region,profile):
