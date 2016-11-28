@@ -34,5 +34,7 @@ class AWSInstances(RetrieveInstanceIPs):
         response = client.describe_instances(Filters=aws_filter('Name',service))
         for res in response.get('Reservations'):
             for instance in res.get('Instances'):
-                ips.append(instance.get(u'PrivateIpAddress'))
+                ip = instance.get(u'PrivateIpAddress')
+                if ip is not None:
+                  ips.append(instance.get(u'PrivateIpAddress'))
         return ips
