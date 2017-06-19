@@ -29,7 +29,7 @@ def aws(jump_host,zookeeper_port,kafka_port,region,profile):
 @click.argument('zookeeper_ips')
 @click.argument('kafka_ips')
 @click.option('-zp','--zookeeper_port',default='2181')
-@click.option('-kp','--kafka_port',default='9091')
+@click.option('-kp','--kafka_port',default='9092')
 def manual(jump_host,zookeeper_ips, kafka_ips, zookeeper_port, kafka_port):
     instances=[]
     click.echo(' * using manual ip\'s ...')
