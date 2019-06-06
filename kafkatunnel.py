@@ -51,7 +51,7 @@ def add_local_interfaces(instances):
         if sys.platform == 'darwin':
             cmd = ['sudo', 'ifconfig', 'lo0', 'alias', instance.ip]
         else:
-            cmd = ['sudo', 'ip', 'add', 'a', 'dev', 'lo', instance.ip]
+            cmd = ['sudo', 'ip', 'addr', 'add', 'dev', 'lo', instance.ip]
         subprocess.call(cmd)
 
 def remove_local_interfaces(instances):
@@ -60,7 +60,7 @@ def remove_local_interfaces(instances):
         if sys.platform == 'darwin':
            cmd = ['sudo', 'ifconfig', 'lo0', '-alias', instance.ip]
         else:
-            cmd = ['sudo', 'ip', 'del', 'a', 'dev', 'lo', instance.ip]
+            cmd = ['sudo', 'ip', 'addr', 'del', 'dev', 'lo', instance.ip + '/32']
         subprocess.call(cmd)
 
 def print_instances(instances):
