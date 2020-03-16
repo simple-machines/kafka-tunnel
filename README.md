@@ -25,7 +25,7 @@ $ make
 Usage
 -----
 
-`kafkatool.py` supports two ways of passing the remote zookeeper/kafka ip's:
+`kafkatool.py` supports two ways of passing the remote zookeeper/kafka and optionally schema registry IPs:
 
 * automatic retrival by ec2 resource tags (Name=zookeeper/kafka)
 
@@ -33,10 +33,10 @@ Usage
 $ kafkatunnel aws ec2-user@awsjumphost
 ```
 
-* manual passing your remote zookeeper/kafka ip's
+* manual passing your remote zookeeper/kafka and optionally schema registry IPs
 
 ```bash
-$ kafkatunnel manual 10.11.85.128,10.11.82.30,10.11.83.9 10.11.80.7,10.11.80.123,10.11.81.13
+$ kafkatunnel manual 10.11.85.128,10.11.82.30,10.11.83.9 10.11.80.7,10.11.80.123,10.11.81.13 10.11.82.10,10.11.82.11
 ```
 afterwards you have to provide your root password in order to create the interfaces
 
@@ -46,10 +46,12 @@ afterwards you have to provide your root password in order to create the interfa
     kafka      on 10.11.80.7      port  9091
     kafka      on 10.11.80.123    port  9091
     kafka      on 10.11.81.13     port  9091
+    schemareg  on 10.11.82.10     port  8081
+    schemareg  on 10.11.82.11     port  8081
      * adding interface, user password might be needed
     Password:
     connecting to jump host
-    Last login: Thu Oct 27 05:16:58 2016 from 203.44.116.49
+    Last login: Wed Mar  4 08:19:59 2020 from 203.44.116.49
 
        __|  __|_  )
        _|  (     /   Amazon Linux AMI

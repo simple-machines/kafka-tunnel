@@ -28,14 +28,18 @@ def aws(jump_host,zookeeper_port,kafka_port,region,profile):
 @click.argument('jump_host')
 @click.argument('zookeeper_ips')
 @click.argument('kafka_ips')
+@click.argument('schemaregistry_ips',default='')
 @click.option('-zp','--zookeeper_port',default='2181')
 @click.option('-kp','--kafka_port',default='9092')
-def manual(jump_host,zookeeper_ips, kafka_ips, zookeeper_port, kafka_port):
+@click.option('-sp','--schemaregistry_port',default='8081')
+def manual(jump_host,zookeeper_ips, kafka_ips, schemaregistry_ips, zookeeper_port, kafka_port, schemaregistry_port):
     instances=[]
     click.echo(' * using manual ip\'s ...')
     man = ManualInstances()
     instances += man.getIps('zookeeper',zookeeper_ips, zookeeper_port)
     instances += man.getIps('kafka',kafka_ips, kafka_port)
+    if schemaregistry_ips:
+        instances += man.getIps('schemareg', schemaregistry_ips, schemaregistry_port)
     connect(jump_host,instances)
 
 
