@@ -6,7 +6,8 @@ setup(
     py_modules=['kafkatunnel','Instance'],
     install_requires=[
         'Click',
-        'boto3'
+        'boto3',
+        'kubernetes',
     ],
     entry_points='''
         [console_scripts]

@@ -2,8 +2,7 @@
 import click
 import sys
 import subprocess
-
-from Instance import ManualInstances, AWSInstances
+from Instance import ManualInstances, AWSInstances, GKEInstance
 
 @click.group(help='Access kafka/zookeeper via ssh tunnel to consume and produce messages from your local machine')
 def cli():
@@ -26,8 +25,8 @@ def aws(jump_host,zookeeper_port,kafka_port,region,profile):
 
 @cli.command(help='provide the IP\'s of your zookeeper/kafka')
 @click.argument('jump_host')
-@click.argument('zookeeper_ips')
 @click.argument('kafka_ips')
+@click.argument('zookeeper_ips',default='')
 @click.argument('schemaregistry_ips',default='')
 @click.option('-zp','--zookeeper_port',default='2181')
 @click.option('-kp','--kafka_port',default='9092')
@@ -42,16 +41,31 @@ def manual(jump_host,zookeeper_ips, kafka_ips, schemaregistry_ips, zookeeper_por
         instances += man.getIps('schemareg', schemaregistry_ips, schemaregistry_port)
     connect(jump_host,instances)
 
+@cli.command(help='retrieve kafka ip\'s from GKE')
+@click.argument('jump_host')
+@click.argument('kafka_broker_name')
+@click.option('-z', '--zone', default=None)
+@click.option('-n', '--namespace', default='kafka')
+def gke(jump_host, kafka_broker_name, zone, namespace):
+    instances=[]
+    click.echo(f' * retrieving ip\'s from gke {namespace}, kafka {kafka_broker_name}')
+    gke = GKEInstance(namespace)
+    instances += gke.getIps(kafka_broker_name)
+    connect(jump_host, instances, zone)
 
-def connect(jump_host,instances):
+
+def connect(jump_host,instances, gke_zone=None):
     print_instances(instances)
     add_local_interfaces(instances)
-    connect_ssh_tunnel(jump_host,instances)
+    connect_ssh_tunnel(jump_host,instances, gke_zone=gke_zone)
     remove_local_interfaces(instances)
 
 def add_local_interfaces(instances):
     click.echo(' * adding interface, user password might be needed')
     for instance in instances:
+        if '' == instance.ip:
+            continue
+
         if sys.platform == 'darwin':
             cmd = ['sudo', 'ifconfig', 'lo0', 'alias', instance.ip]
         else:
@@ -61,6 +75,9 @@ def add_local_interfaces(instances):
 def remove_local_interfaces(instances):
     click.echo(' * removing interface, user/root password might be needed')
     for instance in instances:
+        if '' == instance.ip:
+            continue
+
         if sys.platform == 'darwin':
            cmd = ['sudo', 'ifconfig', 'lo0', '-alias', instance.ip]
         else:
@@ -70,15 +87,31 @@ def remove_local_interfaces(instances):
 def print_instances(instances):
     click.echo('')
     for i in instances:
+        if '' == i.ip:
+            continue
+
         click.echo('{:<10} on {:<15} port {:>5}'.format(i.name,i.ip,i.port))
     click.echo('')
 
-def connect_ssh_tunnel(jump_host,instances):
+
+def connect_ssh_tunnel(jump_host,instances, gke_zone):
     click.echo(' * connecting to jump host ' + jump_host)
     opts = []
     for i in instances:
         opts += ['-L','{ip}:{port}:{ip}:{port}'.format(ip=i.ip,port=i.port)]
-    subprocess.call(['ssh'] + opts + [jump_host])
+    if not gke_zone:
+        subprocess.call(['ssh'] + opts + [jump_host])
+    else:
+        subprocess.call(['gcloud',
+                         'compute',
+                         'ssh',
+                         '--zone',
+                         gke_zone,
+                         jump_host,
+                         '--',
+                         '-vvv'] +
+                        opts)
+
 
 if __name__ == '__main__':
     cli()
