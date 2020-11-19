@@ -36,7 +36,7 @@ $ kafkatunnel aws ec2-user@awsjumphost
 * manual passing your remote zookeeper/kafka and optionally schema registry IPs
 
 ```bash
-$ kafkatunnel manual 10.11.85.128,10.11.82.30,10.11.83.9 10.11.80.7,10.11.80.123,10.11.81.13 10.11.82.10,10.11.82.11
+$ kafkatunnel manual ec2-user@awsjumphost 10.11.85.128,10.11.82.30,10.11.83.9 10.11.80.7,10.11.80.123,10.11.81.13 10.11.82.10,10.11.82.11
 ```
 afterwards you have to provide your root password in order to create the interfaces
 
