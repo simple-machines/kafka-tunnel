@@ -44,7 +44,7 @@ def manual(jump_host,zookeeper_ips, kafka_ips, schemaregistry_ips, zookeeper_por
     connect(jump_host,instances)
 
 
-@cli.command(help='provide the IP\'s of your zookeeper/kafka')
+@cli.command(help='Provide the ARN of your AWS MSK cluster')
 @click.argument('jump_host')
 @click.argument('cluster_arn')
 @click.option('-r','--region',default=os.environ['AWS_DEFAULT_REGION'])

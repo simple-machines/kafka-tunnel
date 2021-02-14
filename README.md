@@ -65,7 +65,7 @@ On a second screen just do whatever you want, e.g. list all topics.
 $ kafka-topics --zookeeper 10.11.85.128:2181 --list
 ```
 
-* on a msk cluster
+* on a AWS MSK cluster
 
 ```bash
 $ kafkatunnel msk ec2-user@awsjumphost arn:aws:kafka:...
