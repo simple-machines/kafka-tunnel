@@ -1,4 +1,7 @@
 import boto3
+from kubernetes import client, config
+import itertools
+
 
 class Instance:
     def __init__(self, name, ip, port):
@@ -38,3 +41,25 @@ class AWSInstances(RetrieveInstanceIPs):
                 if ip is not None:
                   ips.append(instance.get(u'PrivateIpAddress'))
         return ips
+
+
+class GKEInstance(RetrieveInstanceIPs):
+    def __init__(self, namespace):
+        self.namespace = namespace
+
+    def getIps(self, service):
+        config.load_kube_config()
+        instances=[]
+        v1 = client.CoreV1Api()
+        ret = v1.list_namespaced_service(self.namespace, watch=False)
+        for item in itertools.takewhile(lambda i : service == i.metadata.name, ret.items):
+            if not item.status.load_balancer.ingress:
+                continue
+
+            for port in item.spec.ports:
+                instances.append(Instance(name=service,
+                                          ip=item.status.load_balancer.ingress[0].ip,
+                                          port=port.port))
+        return instances
+
+
