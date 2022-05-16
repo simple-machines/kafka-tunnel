@@ -77,7 +77,7 @@ def connect_ssh_tunnel(jump_host,instances):
     click.echo(' * connecting to jump host ' + jump_host)
     opts = []
     for i in instances:
-        opts += ['-L','{ip}:{port}:{ip}:{port}'.format(ip=i.ip,port=i.port)]
+        opts += ['-N', '-L','{ip}:{port}:{ip}:{port}'.format(ip=i.ip,port=i.port)]
     subprocess.call(['ssh'] + opts + [jump_host])
 
 if __name__ == '__main__':
