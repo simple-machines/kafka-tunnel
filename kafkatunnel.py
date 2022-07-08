@@ -2,8 +2,9 @@
 import click
 import sys
 import subprocess
+import os
 
-from Instance import ManualInstances, AWSInstances
+from Instance import ManualInstances, AWSEC2Instances, AWSMSKInstances
 
 @click.group(help='Access kafka/zookeeper via ssh tunnel to consume and produce messages from your local machine')
 def cli():
@@ -18,7 +19,7 @@ def cli():
 def aws(jump_host,zookeeper_port,kafka_port,region,profile):
     instances=[]
     click.echo(' * retrieving ip\'s from AWS ({},{}) zookeeper/kafka ec2 instances by tag_name ...'.format(profile,region))
-    aws = AWSInstances(profile,region)
+    aws = AWSEC2Instances(profile,region)
     instances += aws.getIps('zookeeper',zookeeper_port)
     instances += aws.getIps('kafka',kafka_port)
     connect(jump_host,instances)
@@ -42,6 +43,15 @@ def manual(jump_host,zookeeper_ips, kafka_ips, schemaregistry_ips, zookeeper_por
         instances += man.getIps('schemareg', schemaregistry_ips, schemaregistry_port)
     connect(jump_host,instances)
 
+
+@cli.command(help='Provide the ARN of your AWS MSK cluster')
+@click.argument('jump_host')
+@click.argument('cluster_arn')
+@click.option('-r','--region',default=os.environ['AWS_DEFAULT_REGION'])
+@click.option('-p','--profile',default=os.environ['AWS_PROFILE'])
+def msk(jump_host, cluster_arn, region, profile):
+    msk = AWSMSKInstances(profile, region)
+    connect(jump_host, msk.get_instances(cluster_arn))
 
 def connect(jump_host,instances):
     print_instances(instances)
