@@ -62,7 +62,7 @@ def remove_local_interfaces(instances):
     click.echo(' * removing interface, user/root password might be needed')
     for instance in instances:
         if sys.platform == 'darwin':
-           cmd = ['sudo', 'ifconfig', 'lo0', '-alias', instance.ip]
+           cmd = ['sudo', 'ifconfig', 'lo0', 'delete', instance.ip]
         else:
             cmd = ['sudo', 'ip', 'del', 'a', 'dev', 'lo', instance.ip]
         subprocess.call(cmd)
